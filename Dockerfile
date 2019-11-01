@@ -11,10 +11,6 @@ RUN useradd -m ctf
 RUN echo "ctf ALL=NOPASSWD: ALL" > /etc/sudoers
 USER ctf
 
-# install GEF
-RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
-RUN export LC_CTYPE=C.UTF-8
-
 # install RR
 WORKDIR /tools
 RUN sudo chown ctf /tools/
@@ -27,16 +23,6 @@ WORKDIR /tools/obj
 RUN cmake ../rr
 RUN make -j8
 RUN sudo make install
-
-# install DynamoRIO (required for b7)
-# WORKDIR /tools
-# RUN sudo apt-get install -y doxygen transfig imagemagick ghostscript zlib1g-dev
-# RUN git clone https://github.com/DynamoRIO/dynamorio.git
-# WORKDIR /tools/dynamorio
-# RUN mkdir build
-# WORKDIR /tools/dynamorio/build
-# RUN cmake ..
-# RUN make -j8
 
 # install rust
 WORKDIR /tools
@@ -54,7 +40,18 @@ RUN git submodule init
 RUN git submodule update
 RUN cargo install --path .
 
+# install GEF
+RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
+RUN export LC_CTYPE=C.UTF-8
+RUN pip install keystone-engine
+RUN pip install capstone
+
+
 # install common python packages
 RUN pip install pwntools
 RUN pip install z3
 RUN pip install angr
+
+# install one_gadget
+RUN sudo apt-get install ruby-dev
+RUN gem install one_gadget
