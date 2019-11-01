@@ -44,17 +44,17 @@ RUN wget -q -O setup.sh https://sh.rustup.rs
 RUN chmod +x setup.sh
 RUN ./setup.sh -y
 
-RUN source /bin/bash -c  "source /home/ctf/.cargo/env"
+ENV PATH="/home/ctf/.cargo/bin:${PATH}"
 
 # install b7
-#WORKDIR /tools
-#RUN git clone https://gitlab.com/b7-re/B7.git
-#RUN WORKDIR /tools/B7
-#RUN git submodule init
-#RUN git submodule update
-#RUN cargo install --path .
+WORKDIR /tools
+RUN git clone https://gitlab.com/b7-re/B7.git
+WORKDIR /tools/B7
+RUN git submodule init
+RUN git submodule update
+RUN cargo install --path .
 
 # install common python packages
-#RUN pip install pwntools
-#RUN pip install z3
-#RUN pip install angr
+RUN pip install pwntools
+RUN pip install z3
+RUN pip install angr
