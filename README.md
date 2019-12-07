@@ -7,13 +7,14 @@ Collection of tools I use for CTFs
 - b7
 - pwntools
 - angr
+- one_gadget
 
 
 
 install:
 
 ```
-docker build -t ctf/base -f Dockerfile .
+docker build -t ctf -f Dockerfile .
 ```
 
 
@@ -21,6 +22,6 @@ docker build -t ctf/base -f Dockerfile .
 run:
 
 ```
-docker run -it --rm -v"$(pwd):/home/ctf/challenge" --name ctf ctf/base
+docker run -it --rm -v"$(pwd):/home/ctf/challenge" --name ctf ctf
 ```
 

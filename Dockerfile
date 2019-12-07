@@ -55,3 +55,7 @@ RUN python3 -m pip install --user keystone-engine
 RUN python3 -m pip install --user unicorn
 RUN python3 -m pip install --user capstone
 RUN python3 -m pip install --user ropper
+
+# install one_gadget
+RUN sudo apt-get install -y ruby-dev
+RUN sudo gem install one_gadget
