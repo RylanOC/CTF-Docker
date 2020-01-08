@@ -45,10 +45,23 @@ RUN python -m pip install --user pwntools
 RUN python -m pip install --user angr
 
 # install gef dependencies
-RUN python3 -m pip install --user keystone-engine
 RUN python3 -m pip install --user unicorn
 RUN python3 -m pip install --user capstone
 RUN python3 -m pip install --user ropper
+
+# build keystone from source (packaged version has known issues)
+RUN git clone https://github.com/keystone-engine/keystone.git
+RUN mkdir keystone/build
+WORKDIR /home/ctf/keystone/build
+RUN ../make-share.sh
+RUN sudo make install
+USER root
+RUN echo "include /usr/local/lib" >> /etc/ld.so.conf
+USER ctf
+RUN sudo ldconfig
+WORKDIR /home/ctf/keystone/bindings/python
+RUN sudo make install
+RUN sudo make install3
 
 # install GEF
 RUN wget -q -O- https://github.com/hugsy/gef/raw/master/scripts/gef.sh | sh
@@ -56,3 +69,13 @@ ENV LC_CTYPE=C.UTF-8
 
 # install one_gadget
 RUN sudo gem install one_gadget
+
+# install binwalk
+USER root
+# TODO: JANK JANK JANK
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+USER ctf
+RUN sudo apt-get install -y binwalk
+
+WORKDIR /home/ctf
