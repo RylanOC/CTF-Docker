@@ -22,6 +22,6 @@ docker build -t ctf -f Dockerfile .
 run:
 
 ```
-docker run -it --rm -v"$(pwd):/home/ctf/challenge" --name ctf ctf
+docker run --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -it --rm -v"$(pwd):/home/ctf/challenge" --name ctf ctf
 ```
 

@@ -79,3 +79,7 @@ USER ctf
 RUN sudo apt-get install -y binwalk
 
 WORKDIR /home/ctf
+
+# install checksec
+RUN git clone https://github.com/slimm609/checksec.sh.git
+ENV PATH="/home/ctf/checksec.sh:${PATH}"
