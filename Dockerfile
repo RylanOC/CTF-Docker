@@ -84,4 +84,4 @@ WORKDIR /home/ctf
 RUN git clone https://github.com/slimm609/checksec.sh.git
 ENV PATH="/home/ctf/checksec.sh:${PATH}"
 
-RUN sudo apt instally -y ipython
+RUN sudo apt install -y ipython
